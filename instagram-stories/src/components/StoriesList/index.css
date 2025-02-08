@@ -1,0 +1,41 @@
+.stories-list-container {
+  display: flex;
+  padding: 4px;
+  overflow-y: scroll;
+}
+
+.stories-list-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.stories-list-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.storyitem-container {
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.outer-circle {
+  padding: 4px;
+  border: 2px solid rgb(255, 0, 140);
+  border-radius: 999px;
+  min-height: 80px;
+  min-width: 80px;
+}
+
+.inner-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background-size: contain;
+}
+.name {
+  margin-top: 8px;
+  font-size: 12px;
+}
