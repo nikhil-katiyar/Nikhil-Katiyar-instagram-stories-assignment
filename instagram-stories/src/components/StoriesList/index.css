@@ -22,11 +22,15 @@
 }
 
 .outer-circle {
-  padding: 4px;
-  border: 2px solid rgb(255, 0, 140);
+  padding: 3px;
+  border: 3px solid rgb(255, 0, 140);
   border-radius: 999px;
   min-height: 80px;
   min-width: 80px;
+}
+
+.loading {
+  transition: border 2s ease-out;
 }
 
 .inner-circle {
@@ -35,6 +39,7 @@
   border-radius: 999px;
   background-size: contain;
 }
+
 .name {
   margin-top: 8px;
   font-size: 12px;
