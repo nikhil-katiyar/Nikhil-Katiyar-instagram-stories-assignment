@@ -10,16 +10,18 @@
 ### Running app on local
 
 ```js
-1. npm install (node v20+)
-2. npm run dev
-3. Navigate to "http://localhost:5173/"
+
+1. git clone git@github.com:nikhil-katiyar/Nikhil-Katiyar-instagram-stories-assignment.git
+2. npm install (node v20+)
+3. npm run dev
+4. Navigate to "http://localhost:5173/"
 
 // For prod build with typescript checking
-1. npm run build:tsc
+1. npm run build
 2. Navigate to "http://localhost:4173/"
 
 // For prod build without typescript checking
-1. npm run build
+1. npm run build:app
 2. Navigate to "http://localhost:4173/"
 
 // Preview the prod build
@@ -30,16 +32,6 @@
 
 ### Deployment Steps
 
-1.
+1. Have deployed the project using vercel
+2. Link of Documentation-> https://vercel.com/docs/deployments/git
 
-```js
-1
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-
-```
