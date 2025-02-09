@@ -5,22 +5,36 @@ const Storyitem = (props: {
   user: UserType
   setSelectedStory: React.Dispatch<SetStateAction<object>>
   loading: boolean
+  viewed: object
+  setViewed: React.Dispatch<SetStateAction<object>>
 }) => {
   const {
-    user: { bgImage, name },
+    user: { bgImage, name, id },
     setSelectedStory,
     loading,
+    viewed,
+    setViewed,
   } = props
+
+  console.log("cdsjkvnbsdv- > ", viewed, id)
+
   return (
     <div
       className="storyitem-container"
       onClick={(e) => {
         e.stopPropagation()
-        console.log(props)
+        setViewed((prev) => ({
+          ...prev,
+          [id]: true,
+        }))
         setSelectedStory(props.user)
       }}
     >
-      <div className={`outer-circle ${loading ? "loading" : ""}`}>
+      <div
+        className={`outer-circle ${loading ? "loading" : ""} ${
+          viewed[id] ? "viewed" : ""
+        }`}
+      >
         <div
           className="inner-circle"
           style={

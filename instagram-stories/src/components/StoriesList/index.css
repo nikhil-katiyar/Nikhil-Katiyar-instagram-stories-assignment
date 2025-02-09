@@ -44,3 +44,7 @@
   margin-top: 8px;
   font-size: 12px;
 }
+
+.viewed {
+  border: 3px solid gray;
+}

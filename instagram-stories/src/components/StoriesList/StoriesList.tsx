@@ -13,10 +13,10 @@ import StoryCarousel from "../StoryCarousel/StoryCarousel"
 
 const StoriesList = () => {
   const users = useMemo(() => Users, [])
+  const [viewed, setViewed] = useState<object>({})
   // const { imagesPreloaded } = useImagePreloader(preloadSrcList)
   const [loading, setLoading] = useState(false)
   const [selectedStory, setSelectedStory] = useState<UserType | object>({})
-
   return (
     <>
       {Object.keys(selectedStory).length === 0 ? (
@@ -32,6 +32,8 @@ const StoriesList = () => {
                 stories: [],
               }}
               setSelectedStory={setSelectedStory}
+              viewed={viewed}
+              setViewed={setViewed}
             />
             {users.map((user: UserType) => (
               <StoryItem
@@ -39,12 +41,17 @@ const StoriesList = () => {
                 user={user}
                 setSelectedStory={setSelectedStory}
                 loading={loading}
+                viewed={viewed}
+                setViewed={setViewed}
               />
             ))}
           </div>
         </div>
       ) : (
-        <StoryCarousel {...selectedStory} />
+        <StoryCarousel
+          selectedStory={selectedStory}
+          setSelectedStory={setSelectedStory}
+        />
       )}
     </>
   )
