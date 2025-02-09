@@ -78,7 +78,7 @@ export default [
 ]
 
 export interface UserType {
-  id: number | string
+  id: number
   name: string
   bgImage: string
   stories: string[]

@@ -28,6 +28,9 @@
   min-height: 80px;
   min-width: 80px;
 }
+.border-none {
+  border: 0;
+}
 
 .loading {
   transition: border 2s ease-out;

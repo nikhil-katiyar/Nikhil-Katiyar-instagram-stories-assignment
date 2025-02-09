@@ -42,3 +42,13 @@
   opacity: 1;
   /* transition-duration: 1s; */
 }
+
+.active-name {
+  position: absolute;
+  display: inline-block;
+  top: 32px;
+  left: 16px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}

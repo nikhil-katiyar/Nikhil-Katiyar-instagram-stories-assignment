@@ -10,16 +10,20 @@ import StoryCarousel from "../StoryCarousel/StoryCarousel"
 // import useImagePreloader from "../../hooks"
 
 // const preloadSrcList: string[] = [Image1, Image2, Image3, Image4]
-
+export type ViewedType =
+  | {
+      [key: string]: boolean
+    }
+  | Record<string, never>
 const StoriesList = () => {
   const users = useMemo(() => Users, [])
-  const [viewed, setViewed] = useState<object>({})
+  const [viewed, setViewed] = useState<ViewedType>({})
   // const { imagesPreloaded } = useImagePreloader(preloadSrcList)
-  const [loading, setLoading] = useState(false)
-  const [selectedStory, setSelectedStory] = useState<UserType | object>({})
+  // const [loading, setLoading] = useState(false)
+  const [selectedStory, setSelectedStory] = useState<UserType | null>(null)
   return (
     <>
-      {Object.keys(selectedStory).length === 0 ? (
+      {Object.keys(selectedStory || {}).length === 0 ? (
         <div style={{ padding: "0 8px" }}>
           <h1>Instagram</h1>
           <div className="stories-list-container">
@@ -34,13 +38,14 @@ const StoriesList = () => {
               setSelectedStory={setSelectedStory}
               viewed={viewed}
               setViewed={setViewed}
+              loading={false}
             />
             {users.map((user: UserType) => (
               <StoryItem
                 key={user.id}
                 user={user}
                 setSelectedStory={setSelectedStory}
-                loading={loading}
+                loading={false}
                 viewed={viewed}
                 setViewed={setViewed}
               />
@@ -49,8 +54,10 @@ const StoriesList = () => {
         </div>
       ) : (
         <StoryCarousel
-          selectedStory={selectedStory}
+          selectedStory={selectedStory || null}
           setSelectedStory={setSelectedStory}
+          users={users}
+          setViewed={setViewed}
         />
       )}
     </>

@@ -1,39 +1,40 @@
 import { SetStateAction } from "react"
 import { UserType } from "../../data"
+import { ViewedType } from "./StoriesList"
 
 const Storyitem = (props: {
   user: UserType
-  setSelectedStory: React.Dispatch<SetStateAction<object>>
+  setSelectedStory: React.Dispatch<SetStateAction<UserType | null>>
   loading: boolean
-  viewed: object
-  setViewed: React.Dispatch<SetStateAction<object>>
+  viewed: ViewedType
+  setViewed: React.Dispatch<SetStateAction<ViewedType>>
 }) => {
   const {
-    user: { bgImage, name, id },
+    user: { bgImage, name, id, stories },
     setSelectedStory,
-    loading,
+    loading = false,
     viewed,
     setViewed,
   } = props
-
-  console.log("cdsjkvnbsdv- > ", viewed, id)
 
   return (
     <div
       className="storyitem-container"
       onClick={(e) => {
         e.stopPropagation()
-        setViewed((prev) => ({
-          ...prev,
-          [id]: true,
-        }))
-        setSelectedStory(props.user)
+        if (stories?.length) {
+          setViewed((prev) => ({
+            ...prev,
+            [id]: true,
+          }))
+          setSelectedStory(props.user)
+        }
       }}
     >
       <div
-        className={`outer-circle ${loading ? "loading" : ""} ${
-          viewed[id] ? "viewed" : ""
-        }`}
+        className={`outer-circle ${stories?.length ? "" : "border-none"} ${
+          loading ? "loading" : ""
+        } ${viewed[id.toString()] ? "viewed" : ""}`}
       >
         <div
           className="inner-circle"
