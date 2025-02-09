@@ -1,26 +1,56 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import Users, { UserType } from "../../data"
 import StoryItem from "./StoryItem"
 import "./index.css"
 import StoryCarousel from "../StoryCarousel/StoryCarousel"
-// import Image1 from "../../../public/images/1.jpg"
-// import Image2 from "../../../public/images/2.jpg"
-// import Image3 from "../../../public/images/3.jpg"
-// import Image4 from "../../../public/images/4.jpg"
-// import useImagePreloader from "../../hooks"
 
-// const preloadSrcList: string[] = [Image1, Image2, Image3, Image4]
 export type ViewedType =
   | {
       [key: string]: boolean
     }
   | Record<string, never>
+
+// Helper function to preload a single image
+const preloadImage = (src: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve()
+    img.onerror = () => reject()
+    img.src = src
+  })
+}
+
 const StoriesList = () => {
   const users = useMemo(() => Users, [])
   const [viewed, setViewed] = useState<ViewedType>({})
-  // const { imagesPreloaded } = useImagePreloader(preloadSrcList)
-  // const [loading, setLoading] = useState(false)
   const [selectedStory, setSelectedStory] = useState<UserType | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Preload all story images when component mounts
+  useEffect(() => {
+    const preloadAllStories = async () => {
+      try {
+        // Get all unique story image URLs
+        const allStoryImages = users.reduce((acc: string[], user) => {
+          if (user.stories) {
+            return [...acc, ...user.stories]
+          }
+          return acc
+        }, [])
+
+        // Preload all images in parallel
+        await Promise.all(allStoryImages.map((src) => preloadImage(src)))
+
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Error preloading stories:", error)
+        setIsLoading(false)
+      }
+    }
+
+    preloadAllStories()
+  }, [users])
+
   return (
     <>
       {Object.keys(selectedStory || {}).length === 0 ? (
@@ -38,14 +68,12 @@ const StoriesList = () => {
               setSelectedStory={setSelectedStory}
               viewed={viewed}
               setViewed={setViewed}
-              loading={false}
             />
             {users.map((user: UserType) => (
               <StoryItem
                 key={user.id}
                 user={user}
                 setSelectedStory={setSelectedStory}
-                loading={false}
                 viewed={viewed}
                 setViewed={setViewed}
               />
@@ -58,6 +86,7 @@ const StoriesList = () => {
           setSelectedStory={setSelectedStory}
           users={users}
           setViewed={setViewed}
+          loading={isLoading}
         />
       )}
     </>

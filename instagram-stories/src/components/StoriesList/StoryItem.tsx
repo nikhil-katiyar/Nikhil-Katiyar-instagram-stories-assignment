@@ -5,14 +5,12 @@ import { ViewedType } from "./StoriesList"
 const Storyitem = (props: {
   user: UserType
   setSelectedStory: React.Dispatch<SetStateAction<UserType | null>>
-  loading: boolean
   viewed: ViewedType
   setViewed: React.Dispatch<SetStateAction<ViewedType>>
 }) => {
   const {
     user: { bgImage, name, id, stories },
     setSelectedStory,
-    loading = false,
     viewed,
     setViewed,
   } = props
@@ -32,9 +30,7 @@ const Storyitem = (props: {
       }}
     >
       <div
-        className={`outer-circle ${stories?.length ? "" : "border-none"} ${
-          loading ? "loading" : ""
-        } ${viewed[id.toString()] ? "viewed" : ""}`}
+        className={`outer-circle ${stories?.length ? "" : "border-none"} ${viewed[id.toString()] ? "viewed" : ""}`}
       >
         <div
           className="inner-circle"

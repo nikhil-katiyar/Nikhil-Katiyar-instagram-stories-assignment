@@ -2,17 +2,20 @@ import { SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 import { STORY_DURATION, UserType } from "../../data"
 import "./index.css"
 import { ViewedType } from "../StoriesList/StoriesList"
+import Spinner from "../Spinner"
 
 const StoryCarousel = ({
   selectedStory,
   setSelectedStory,
   users,
   setViewed,
+  loading,
 }: {
   selectedStory: UserType | null
   setSelectedStory: React.Dispatch<SetStateAction<UserType | null>>
   users: UserType[]
   setViewed: React.Dispatch<SetStateAction<ViewedType>>
+  loading: boolean
 }) => {
   const [currentImage, setCurrentImage] = useState(0)
   const touchStart = useRef(0)
@@ -25,7 +28,7 @@ const StoryCarousel = ({
     const { clientX } = e
     const halfWidth = screen.availWidth / 2
     const el = document.getElementsByClassName(
-      "progress"
+      "progress",
     ) as HTMLCollectionOf<HTMLElement>
     if (clientX <= halfWidth) {
       el[currentImage].style.width = `0%`
@@ -43,7 +46,7 @@ const StoryCarousel = ({
       const interval = STORY_DURATION / 100
       progress.current = 0
       const el = document.getElementsByClassName(
-        "progress"
+        "progress",
       ) as HTMLCollectionOf<HTMLElement>
       intervalId.current = setInterval(() => {
         progress.current = progress.current + 1
@@ -56,7 +59,7 @@ const StoryCarousel = ({
         }
       }, interval)
     },
-    [STORY_DURATION, stories, currentImage]
+    [STORY_DURATION, stories, currentImage],
   )
 
   function handleTouchStart(e: React.TouchEvent<HTMLDivElement>) {
@@ -101,19 +104,21 @@ const StoryCarousel = ({
   }
 
   useEffect(() => {
-    if (stories?.length && currentImage < stories.length) {
-      clearInterval(intervalId.current)
-      if (currentImage < 0) {
-        moveToPrevStory()
+    if (!loading) {
+      if (stories?.length && currentImage < stories.length) {
+        clearInterval(intervalId.current)
+        if (currentImage < 0) {
+          moveToPrevStory()
+        } else {
+          handleProgressBar(currentImage)
+        }
       } else {
-        handleProgressBar(currentImage)
+        setCurrentImage(0)
+        clearInterval(intervalId.current)
+        moveToNextStory()
       }
-    } else {
-      setCurrentImage(0)
-      clearInterval(intervalId.current)
-      moveToNextStory()
     }
-  }, [currentImage])
+  }, [currentImage, loading])
 
   return (
     <div
@@ -135,20 +140,24 @@ const StoryCarousel = ({
         ))}
       </div>
       <span className="active-name">{name}</span>
-      <div className="stories">
-        {stories?.map((storyImg: string, index: number) => {
-          return (
-            <div
-              className={`image ${index === currentImage ? "active" : ""}`}
-              key={storyImg}
-            >
-              {index === currentImage && (
-                <img src={storyImg} alt="image" width="100%" height="100%" />
-              )}
-            </div>
-          )
-        })}
-      </div>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div className="stories">
+          {stories?.map((storyImg: string, index: number) => {
+            return (
+              <div
+                className={`image ${index === currentImage ? "active" : ""}`}
+                key={storyImg}
+              >
+                {index === currentImage && (
+                  <img src={storyImg} alt="image" width="100%" height="100%" />
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
