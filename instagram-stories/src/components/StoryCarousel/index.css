@@ -1,0 +1,54 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  overflow: hidden;
+}
+
+.story-bar-container {
+  display: flex;
+  position: sticky;
+  top: 16px;
+  padding: 0px 8px;
+  width: 100%;
+  justify-content: space-between;
+  height: 1px;
+}
+.story-bar {
+  background-color: rgb(74, 73, 73);
+  opacity: 0.5;
+  padding: 0px;
+}
+.progress {
+  background-color: rgb(190, 190, 190);
+  opacity: 1;
+  display: block;
+  padding: 2px;
+}
+
+.stories {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.image {
+  opacity: 0;
+  /* transition-duration: 1s ease; */
+}
+
+.active {
+  opacity: 1;
+  /* transition-duration: 1s; */
+}
+
+.active-name {
+  position: absolute;
+  display: inline-block;
+  top: 32px;
+  left: 16px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}
